@@ -1,6 +1,7 @@
 venv*
 build
 dist
+arch3
 pyarch3.egg-info
 .DS_Store
 *.so

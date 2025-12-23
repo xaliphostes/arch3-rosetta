@@ -1,0 +1,30 @@
+#include "../rosetta/binding.h"
+#include <rosetta/extensions/generators/py_generator.h>
+
+using namespace arch;
+
+BEGIN_PY_MODULE(pyarch3, "Python bindings for arch3") {
+    register_rosetta();
+
+    BIND_SHARED_PTR(Surface);
+    BIND_PTR(Model);       // Enable Model* in constructor arguments
+    BIND_PTR(BaseRemote);  // Enable BaseRemote* in method arguments
+
+    // Use native pybind11 constructor to avoid double-free issues
+    BIND_CLASS_NATIVE_DEFAULT_CTOR(Model);
+    
+    BIND_PY_CLASS(Surface);
+    BIND_PY_CLASS(Material);
+    
+    // Postprocess takes Model& - use special macro
+    BIND_CLASS_WITH_REF_CTOR_AS(Postprocess, "Forward", Model);
+
+    BIND_PY_CLASS(BaseRemote);
+    BIND_PY_DERIVED_CLASS(RemoteStress, BaseRemote);
+    BIND_PY_DERIVED_CLASS(UserRemote, BaseRemote);
+
+    BIND_PY_CLASS(IterativeSolver);
+    // SeidelSolver takes Model& - use special macro
+    BIND_DERIVED_CLASS_WITH_REF_CTOR_AS(SeidelSolver, "SeidelSolver", IterativeSolver, Model);
+}
+END_PY_MODULE()
