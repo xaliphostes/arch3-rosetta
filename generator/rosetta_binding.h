@@ -11,22 +11,52 @@
 
 void register_rosetta() {
 
+    ROSETTA_REGISTER_CLASS(arch::Matrix33)
+        .constructor<>()
+        .constructor<double, double, double, double, double, double>()
+        .lambda_method<double>("xx", [](const arch::Matrix33 &m) { return m.get(0, 0); })
+        .lambda_method<double>("xy", [](const arch::Matrix33 &m) { return m.get(0, 1); })
+        .lambda_method<double>("xz", [](const arch::Matrix33 &m) { return m.get(0, 2); })
+        .lambda_method<double>("yy", [](const arch::Matrix33 &m) { return m.get(1, 1); })
+        .lambda_method<double>("yz", [](const arch::Matrix33 &m) { return m.get(1, 2); })
+        .lambda_method<double>("zz", [](const arch::Matrix33 &m) { return m.get(2, 2); })
+        .lambda_method<std::string>("__repr__", [](const arch::Matrix33 &m) {
+            return "xx=" + std::to_string(m.get(0, 0)) +
+                   ", xy=" + std::to_string(m.get(0, 1)) +
+                   ", xz=" + std::to_string(m.get(0, 2)) +
+                   ", yy=" + std::to_string(m.get(1, 1)) +
+                   ", yz=" + std::to_string(m.get(1, 2)) +
+                   ", zz=" + std::to_string(m.get(2, 2));
+        });
+
+    // Bind Vector3 if needed
+    ROSETTA_REGISTER_CLASS(arch::Vector3)
+        .constructor<>()
+        .constructor<double, double, double>()
+        .lambda_method<double>("x", [](const arch::Vector3 &v) { return v[0]; })
+        .lambda_method<double>("y", [](const arch::Vector3 &v) { return v[1]; })
+        .lambda_method<double>("z", [](const arch::Vector3 &v) { return v[2]; })
+        .lambda_method<std::string>("__repr__", [](const arch::Vector3 &v) {
+            return "x=" + std::to_string(v[0]) + ", y=" + std::to_string(v[1]) +
+                   ", z=" + std::to_string(v[2]);
+        });
+
     ROSETTA_REGISTER_CLASS(arch::Model)
         .constructor<>()
-        .method("setHalfspace", &arch::Model::setHalfSpace)
+        .method("setHalfSpace", &arch::Model::setHalfSpace)
         .method("setMaterial", &arch::Model::setMaterial)
         .method("addRemote", &arch::Model::addRemote)
-        .method("nbDof", &arch::Model::nbDof)
-        // .method("addSurface", &arch::Model::addSurface)
-        .method("addSurface", R_OVERLOAD(arch::Model, arch::Surface *,
-                                         addSurface, arch::Surface *));
+        .method("nbDof", &arch::Model::nbDof);
 
     ROSETTA_REGISTER_CLASS(arch::Surface)
-        .constructor<arch::Model*, const std::vector<double> &, const std::vector<int> &>()
-        .method("setBcType", R_OVERLOAD(arch::Surface, void, setBcType, const arch::String &, const arch::String &))
-        .method("setBcValues", R_OVERLOAD(arch::Surface, bool, setBcValues, const std::vector<double> &));
-    // .method("addTic", arch::Surface::addTic)
-    // .method("addDic", arch::Surface::addDic);
+        .constructor<arch::Model *, const std::vector<double> &,
+                     const std::vector<int> &>()
+        .overloaded_method("setBcType",
+                           ROSETTA_OVERLOAD(arch::Surface, void, setBcType,
+                                            const String &, const String &))
+        // .method("addTic", arch::Surface::addTic)
+        // .method("addDic", arch::Surface::addDic)
+        .method("setBcValues", &arch::Surface::setBcValues);
 
     // TODO
     ROSETTA_REGISTER_CLASS(arch::Coulomb).constructor<>();
@@ -50,7 +80,7 @@ void register_rosetta() {
     ROSETTA_REGISTER_CLASS(arch::RemoteStress)
         .inherits_from<arch::BaseRemote>("BaseRemote")
         .constructor<>()
-        .method("seth", &arch::RemoteStress::seth) 
+        .method("seth", &arch::RemoteStress::seth)
         .method("setH", &arch::RemoteStress::setH)
         .method("setv", &arch::RemoteStress::setv)
         .method("setTheta", &arch::RemoteStress::setTheta);
@@ -64,8 +94,9 @@ void register_rosetta() {
 
     ROSETTA_REGISTER_CLASS_AS(arch::SeidelSolver, "SeidelSolver")
         .inherits_from<arch::IterativeSolver>("IterativeSolver")
-        .constructor<arch::Model&>()
-        .lambda_method<bool>("run", [](arch::SeidelSolver& self) { return self.run(); });
+        .constructor<arch::Model &>()
+        .lambda_method<bool>(
+            "run", [](arch::SeidelSolver &self) { return self.run(); });
 
     ROSETTA_REGISTER_CLASS_AS(arch::Postprocess, "Forward")
         .constructor<arch::Model &>()
