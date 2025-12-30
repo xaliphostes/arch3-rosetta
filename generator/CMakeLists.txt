@@ -43,6 +43,11 @@ add_executable(arch3_generator
     main.cxx
 )
 
+# Place this specific executable 2 directories up
+set_target_properties(arch3_generator PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/../.."
+)
+
 target_include_directories(arch3_generator PRIVATE
     ${BINDING_GENERATOR_DIR}
     ${ROSETTA_INCLUDE_DIR}

@@ -9,7 +9,7 @@ Using [Rosetta](https://github.com/xaliphostes/rosetta.git), binding [Arch3](htt
 
 ## Install
 
-### Generate the binary for your lib
+### 1. Generate the binary for your lib
 - Go to the generator folder
 - Then
     ```sh
@@ -18,15 +18,18 @@ Using [Rosetta](https://github.com/xaliphostes/rosetta.git), binding [Arch3](htt
     make
     cd ..
     ```
-### Generate the `project.json`
-```sh
-./generator/build/arch3_generator --init
-```
-and then edit this generated `project.json` file to make the necessary changes (includes, libs, name, etc...)
+It will generate `arch3_generator(.exe)` at the root of this project
 
-### Generate the generators (for python, javascript, wasm, typescript, rest-api)
+### 2. Generate the `project.json`
+Type
 ```sh
-./generator/build/arch3_generator project.json
+./arch3_generator --init
+```
+to generate the `project.json` file and then edit to make the necessary changes (includes, libs, name, etc...)
+
+### 3. Generate the generators for python, javascript, wasm, typescript, rest-api...
+```sh
+./arch3_generator project.json
 ```
 This will create a new folder `generated` with inside several folders:
 - `javascript`
@@ -34,7 +37,7 @@ This will create a new folder `generated` with inside several folders:
 - `wasm`
 - `rest`
 
-### Finally, compile each binding
+### 4. Finally, compile each binding
 Go to each folder and read the README for compilation.
 
 As an example, for **Python** you will do
