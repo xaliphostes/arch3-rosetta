@@ -59,8 +59,8 @@ void register_rosetta() {
         .method("setBcValues", &arch::Surface::setBcValues);
 
     // TODO
-    ROSETTA_REGISTER_CLASS(arch::Coulomb).constructor<>();
-    ROSETTA_REGISTER_CLASS(arch::CoulombOrtho).constructor<>();
+    // ROSETTA_REGISTER_CLASS(arch::Coulomb).constructor<>();
+    // ROSETTA_REGISTER_CLASS(arch::CoulombOrtho).constructor<>();
 
     ROSETTA_REGISTER_CLASS(arch::Material)
         .constructor<double, double, double>()
@@ -98,7 +98,7 @@ void register_rosetta() {
         .lambda_method<bool>(
             "run", [](arch::SeidelSolver &self) { return self.run(); });
 
-    ROSETTA_REGISTER_CLASS_AS(arch::Postprocess, "Forward")
+    ROSETTA_REGISTER_CLASS_AS(arch::Postprocess, "Postprocess")
         .constructor<arch::Model &>()
         .method("displ", &arch::Postprocess::displ)
         .method("strain", &arch::Postprocess::strain)
