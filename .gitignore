@@ -10,3 +10,4 @@ pyarch3.egg-info
 *.dylib
 *.pyd
 generated
+arch3*
