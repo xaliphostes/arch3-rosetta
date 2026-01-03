@@ -98,7 +98,7 @@
             "Matrix33",
             "std::vector<double>"
         ],
-        "skip_classes": [],
+        "skip_classes": ["IterativeSolver", "BaseRemote"],
         "skip_methods": []
     }
 }

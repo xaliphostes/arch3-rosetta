@@ -1,6 +1,6 @@
 # Arch - Rosetta
 
-Using [Rosetta](https://github.com/xaliphostes/rosetta.git), binding [Arch3](https://github.com/xaliphostes/arch3.git) in
+Using [Rosetta](https://github.com/xaliphostes/rosetta.git), binds [Arch3](https://github.com/xaliphostes/arch3.git) in
 - Python
 - JavaScript
 - Wasm

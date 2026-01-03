@@ -6,7 +6,7 @@
 // discover all registered classes.
 // ============================================================================
 
-#include <rosetta/extensions/generators/BindingGeneratorLib.h>
+#include <rosetta/extensions/generators/common/BindingGeneratorLib.h>
 #include "rosetta_binding.h"
 
 int main(int argc, char* argv[]) {
