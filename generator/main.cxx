@@ -1,7 +1,7 @@
 // ============================================================================
-// Custom Binding Generator for Geometry Project
+// Custom Binding Generator for the Arch3 Project
 // 
-// This generator links against the geometry project and calls the Rosetta
+// This generator links against the arch3 project and calls the Rosetta
 // registration function BEFORE generating bindings, so the generator can
 // discover all registered classes.
 // ============================================================================
