@@ -1,24 +1,24 @@
 {
     "variables": {
-        "PROJECT_ROOT": "/Users/fmaerten/devs/c++/arch3",
-        "ROSETTA_ROOT": "/Users/fmaerten/devs/c++/rosetta"
+        "BUILD_DIR": "build",
+        "ROSETTA_ROOT": "${BUILD_DIR}/_deps/rosetta-src",
+        "ARCH3_ROOT": "${BUILD_DIR}/_deps/arch3-src"
     },
     "project": {
         "name": "arch3",
         "version": "1.0.0",
-        "description": "arch3 auto-generated bindings",
+        "description": "Python bindings for arch3-rosetta",
         "author": "xaliphostes",
         "license": "MIT"
     },
     "rosetta": {
-        "registration_function": "register_rosetta",
-        "registration_header": "generator/rosetta_binding.h",
-        "registration_namespace": "",
-        "types_namespace": ""
+        "registration_header": "bindings/arch3_rosetta_registration.h",
+        "registration_function": "arch3_rosetta::register_all"
     },
+    "output_base_dir": "generated",
     "sources": {
         "mode": "static",
-        "base_dir": "${PROJECT_ROOT}/src",
+        "base_dir": "${ARCH3_ROOT}/src",
         "files": [],
         "glob_patterns": [
             "**/*.cxx"
@@ -32,73 +32,53 @@
     },
     "includes": {
         "directories": [
-            "${PROJECT_ROOT}/include",
-            "${PROJECT_ROOT}/extern/eigen",
-            "${PROJECT_ROOT}/extern/krylov/include",
+            "extern/eigen",
+            "extern/krylov/include",
+            "${ARCH3_ROOT}/include",
+            "${ARCH3_ROOT}/src",
             "${ROSETTA_ROOT}/include"
         ],
         "headers": [],
-        "library_directories": [
-            "${PROJECT_ROOT}/../bin"
-        ],
-        "libraries": [
-            "Arch3"
-        ]
-    },
-    "output": {
-        "base_dir": "./generated"
+        "library_directories": [],
+        "libraries": []
     },
     "targets": {
         "python": {
             "enabled": true,
-            "link_mode": "dynamic",
-            "extra_sources": [],
-            "extra_libs": [],
-            "output_dir": ""
+            "python_executable": "",
+            "module_name": "arch3",
+            "output_dir": "",
+            "link_mode": "static",
+            "sources": {
+                "glob_patterns": [
+                    "**/*.cxx"
+                ],
+                "exclude_patterns": [
+                    "**/test/**",
+                    "**/main.cxx",
+                    "**/examples/**"
+                ]
+            }
         },
         "wasm": {
             "enabled": true,
-            "link_mode": "static",
-            "sources": {
-                "glob_patterns": ["**/*.cxx"],
-                "exclude_patterns": ["**/test/**", "**/main.cxx"]
-            },
-            "environment": "web,node",
-            "export_es6": false,
-            "extra_sources": [],
-            "extra_libs": [],
+            "module_name": "arch3_wasm",
             "output_dir": "",
-            "single_file": true
+            "single_file": true,
+            "export_es6": false,
+            "environment": "web,node"
         },
         "javascript": {
             "enabled": true,
-            "link_mode": "dynamic",
-            "extra_sources": [],
-            "extra_libs": [],
+            "module_name": "arch3_js",
             "output_dir": ""
         },
         "rest": {
             "enabled": true,
-            "link_mode": "dynamic",
-            "extra_sources": [],
-            "extra_libs": [],
             "output_dir": ""
         }
     },
-    "options": {
-        "generate_cmake": true,
-        "generate_readme": true,
-        "generate_example": false,
-        "generate_stubs": true,
-        "generate_typescript": true
-    },
-    "advanced": {
-        "numpy_types": [
-            "Vector3",
-            "Matrix33",
-            "std::vector<double>"
-        ],
-        "skip_classes": ["IterativeSolver", "BaseRemote"],
-        "skip_methods": []
+    "types": {
+        "namespace": "arch"
     }
 }

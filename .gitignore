@@ -1,13 +1,32 @@
-venv*
-.venv*
-build
-dist
-arch3
-pyarch3.egg-info
-.DS_Store
+# Build directories
+build/
+generated/
+extern/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Compiled files
+*.o
+*.a
 *.so
-*.dll
 *.dylib
-*.pyd
-generated
-arch3*
+
+# Executables
+*_generator
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+*.whl
+
+# OS
+.DS_Store
+Thumbs.db

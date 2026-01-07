@@ -1,55 +1,61 @@
-# Arch - Rosetta
+# arch3-rosetta
 
-Using [Rosetta](https://github.com/xaliphostes/rosetta.git), binds [Arch3](https://github.com/xaliphostes/arch3.git) in
+Using [Rosetta](https://github.com/xaliphostes/rosetta.git) to bind [Arch3](https://github.com/xaliphostes/arch3.git) in
 - Python
 - JavaScript
 - Wasm
 - REST API
 - ...
 
-## Install
+## Prerequisites
 
-### 1. Generate the binary for your lib
-- Go to the generator folder
-- Then
-    ```sh
-    mkdir build && cd build
-    cmake ..
-    make
-    cd ..
-    ```
-It will generate `arch3_generator(.exe)` at the root of this project
+- CMake 3.16+
+- C++20 compatible compiler
+- Python 3.8+ (for Python bindings)
 
-### 2. Generate the `project.json`
-Type
-```sh
-./arch3_generator --init
-```
-to generate the `project.json` file and then edit to make the necessary changes (includes, libs, name, etc...)
+## Building
 
-### 3. Generate the generators for python, javascript, wasm, typescript, rest-api...
-```sh
-./arch3_generator project.json
-```
-This will create a new folder `generated` with inside several folders:
-- `javascript`
-- `python`
-- `wasm`
-- `rest`
-
-### 4. Finally, compile each binding
-Go to each folder and read the README for compilation.
-
-As an example, for **Python** you will do
-```sh
-cd generated/python
+```bash
+# Create build directory
 mkdir build && cd build
-cmake .. && make
+
+# Configure
+cmake ..
+
+# Build the generator
+make
+
+# Run the generator
+cd ..
+./arch3_rosetta_generator project.json
 ```
-At the end of the compilation, you will endup with a **Python** library that uses your **dynamic C++** library.
+
+## Generated Bindings
+
+This project generates bindings for: python, wasm, javascript, rest
+
+After running the generator, you'll find the generated code in the `generated/` directory.
+
+### Python Bindings
+
+```bash
+cd generated/python
+pip install .
+```
+
+Then in Python:
+
+```python
+import arch3
+# Use your bound classes and functions
+```
+
+## Customizing Bindings
+
+Edit `bindings/arch3_rosetta_registration.h` to register your C++ classes and functions.
+
+See the [Rosetta documentation](https://github.com/xaliphostes/rosetta) for more information on registration macros.
 
 ## License
-MIT
 
-## Author
-[xaliphostes](https://github.com/xaliphostes)
+MIT
