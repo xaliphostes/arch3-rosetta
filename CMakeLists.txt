@@ -48,7 +48,7 @@ FetchContent_Declare(
     arch3
     GIT_REPOSITORY https://github.com/xaliphostes/arch3.git
     GIT_TAG        main
-    GIT_SHALLOW    TRUE
+    GIT_SHALLOW    FALSE
 )
 
 # Disable tests for fetched library

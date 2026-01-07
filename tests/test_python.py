@@ -6,7 +6,7 @@ surface.setBcType("dip", "free")
 surface.setBcType("strike", "free")
 surface.setBcType("normal", "free")
 
-r = arch3.UserRemote(lambda x,y,z: arch3.Matrix33(0,0,0,0,0,-1))
+r = arch3.UserRemote(lambda x,y,z: [0,0,0,0,0,-1])
 model.addRemote(r)
 
 solver = arch3.SeidelSolver(model)

@@ -23,45 +23,47 @@
 #include <Arch/solvers/Seidel.h>
 #include <functional>
 
-
 namespace arch3_rosetta {
 
 inline void register_all() {
-    ROSETTA_REGISTER_CLASS(arch::Matrix33)
-        .constructor<>()
-        .constructor<double, double, double, double, double, double>()
-        .lambda_method<double>(
-            "xx", [](const arch::Matrix33 &m) { return m.get(0, 0); })
-        .lambda_method<double>(
-            "xy", [](const arch::Matrix33 &m) { return m.get(0, 1); })
-        .lambda_method<double>(
-            "xz", [](const arch::Matrix33 &m) { return m.get(0, 2); })
-        .lambda_method<double>(
-            "yy", [](const arch::Matrix33 &m) { return m.get(1, 1); })
-        .lambda_method<double>(
-            "yz", [](const arch::Matrix33 &m) { return m.get(1, 2); })
-        .lambda_method<double>(
-            "zz", [](const arch::Matrix33 &m) { return m.get(2, 2); })
-        .lambda_method<std::string>("__repr__", [](const arch::Matrix33 &m) {
-            return "xx=" + std::to_string(m.get(0, 0)) +
-                   ", xy=" + std::to_string(m.get(0, 1)) +
-                   ", xz=" + std::to_string(m.get(0, 2)) +
-                   ", yy=" + std::to_string(m.get(1, 1)) +
-                   ", yz=" + std::to_string(m.get(1, 2)) +
-                   ", zz=" + std::to_string(m.get(2, 2));
-        });
 
-    // Bind Vector3 if needed
-    ROSETTA_REGISTER_CLASS(arch::Vector3)
-        .constructor<>()
-        .constructor<double, double, double>()
-        .lambda_method<double>("x", [](const arch::Vector3 &v) { return v[0]; })
-        .lambda_method<double>("y", [](const arch::Vector3 &v) { return v[1]; })
-        .lambda_method<double>("z", [](const arch::Vector3 &v) { return v[2]; })
-        .lambda_method<std::string>("__repr__", [](const arch::Vector3 &v) {
-            return "x=" + std::to_string(v[0]) + ", y=" + std::to_string(v[1]) +
-                   ", z=" + std::to_string(v[2]);
-        });
+    // ROSETTA_REGISTER_CLASS(arch::Matrix33)
+    //     .constructor<>()
+    //     .constructor<double, double, double, double, double, double>()
+    //     .lambda_method<double>(
+    //         "xx", [](const arch::Matrix33 &m) { return m.get(0, 0); })
+    //     .lambda_method<double>(
+    //         "xy", [](const arch::Matrix33 &m) { return m.get(0, 1); })
+    //     .lambda_method<double>(
+    //         "xz", [](const arch::Matrix33 &m) { return m.get(0, 2); })
+    //     .lambda_method<double>(
+    //         "yy", [](const arch::Matrix33 &m) { return m.get(1, 1); })
+    //     .lambda_method<double>(
+    //         "yz", [](const arch::Matrix33 &m) { return m.get(1, 2); })
+    //     .lambda_method<double>(
+    //         "zz", [](const arch::Matrix33 &m) { return m.get(2, 2); })
+    //     .lambda_method<std::string>("__repr__", [](const arch::Matrix33 &m) {
+    //         return "xx=" + std::to_string(m.get(0, 0)) +
+    //                ", xy=" + std::to_string(m.get(0, 1)) +
+    //                ", xz=" + std::to_string(m.get(0, 2)) +
+    //                ", yy=" + std::to_string(m.get(1, 1)) +
+    //                ", yz=" + std::to_string(m.get(1, 2)) +
+    //                ", zz=" + std::to_string(m.get(2, 2));
+    //     });
+
+    // // Bind Vector3 if needed
+    // ROSETTA_REGISTER_CLASS(arch::Vector3)
+    //     .constructor<>()
+    //     .constructor<double, double, double>()
+    //     .lambda_method<double>("x", [](const arch::Vector3 &v) { return v[0];
+    //     }) .lambda_method<double>("y", [](const arch::Vector3 &v) { return
+    //     v[1]; }) .lambda_method<double>("z", [](const arch::Vector3 &v) {
+    //     return v[2]; }) .lambda_method<std::string>("__repr__", [](const
+    //     arch::Vector3 &v) {
+    //         return "x=" + std::to_string(v[0]) + ", y=" +
+    //         std::to_string(v[1]) +
+    //                ", z=" + std::to_string(v[2]);
+    //     });
 
     ROSETTA_REGISTER_CLASS(arch::Model)
         .constructor<>()
@@ -109,7 +111,7 @@ inline void register_all() {
 
     ROSETTA_REGISTER_CLASS(arch::UserRemote)
         .inherits_from<arch::BaseRemote>("BaseRemote")
-        .constructor<std::function<arch::Matrix33(double, double, double)>>();
+        .constructor<std::function<std::array<double, 6>(double, double, double)>>();
 
     ROSETTA_REGISTER_CLASS(arch::IterativeSolver)
         .method("run", &arch::IterativeSolver::run);
