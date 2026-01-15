@@ -34,7 +34,7 @@ FetchContent_Declare(
 )
 
 # Disable Rosetta unit tests
-set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+set(ROSETTA_BUILD_TESTING OFF)
 
 FetchContent_MakeAvailable(rosetta)
 FetchContent_GetProperties(rosetta SOURCE_DIR ROSETTA_SOURCE_DIR)

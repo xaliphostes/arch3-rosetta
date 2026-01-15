@@ -75,12 +75,12 @@ inline void register_all() {
     ROSETTA_REGISTER_CLASS(arch::Surface)
         .constructor<arch::Model *, const std::vector<double> &,
                      const std::vector<int> &>()
-        .overloaded_method("setBcType",
-                           ROSETTA_OVERLOAD(arch::Surface, void, setBcType,
-                                            const String &, const String &))
+        .method("setBcType", &arch::Surface::setBcType)
+        .method("setBcValue", &arch::Surface::setBcValue)
+        .method("setBcValues", &arch::Surface::setBcValues)
         // .method("addTic", arch::Surface::addTic)
         // .method("addDic", arch::Surface::addDic)
-        .method("setBcValues", &arch::Surface::setBcValues);
+        ;
 
     // TODO
     // ROSETTA_REGISTER_CLASS(arch::Coulomb).constructor<>();
@@ -111,7 +111,9 @@ inline void register_all() {
 
     ROSETTA_REGISTER_CLASS(arch::UserRemote)
         .inherits_from<arch::BaseRemote>("BaseRemote")
-        .constructor<std::function<std::array<double, 6>(double, double, double)>>();
+        .constructor<
+            std::function<std::array<double, 6>(double, double, double)>>()
+        .method("setFunction", &arch::UserRemote::setFunction);
 
     ROSETTA_REGISTER_CLASS(arch::IterativeSolver)
         .method("run", &arch::IterativeSolver::run);
