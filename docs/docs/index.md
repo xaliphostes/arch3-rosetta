@@ -266,6 +266,8 @@ solver = arch3.SeidelSolver(model)
 
 | Method | Parameters | Return | Description |
 |--------|------------|--------|-------------|
+| `setEps(eps)` | `eps: float` | `None` | Set the precison of the solver (1e-9) |
+| `setMaxIter(nb)` | `nb: int` | `None` | Set maximum number of iterations for the solver (200) |
 | `run()` | - | `bool` | Execute the solver; returns `True` on convergence |
 
 #### Example

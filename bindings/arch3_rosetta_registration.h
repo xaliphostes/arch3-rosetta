@@ -134,14 +134,18 @@ inline void register_all() {
             std::function<std::array<double, 6>(double, double, double)>>()
         .method("setFunction", &arch::UserRemote::setFunction);
 
+    ROSETTA_REGISTER_CLASS(arch::BaseSolver)
+        .method("run", &arch::BaseSolver::run)
+        .method("setEps", &arch::BaseSolver::setEps)
+        .method("setMaxIter", &arch::BaseSolver::setMaxIter);
+
     ROSETTA_REGISTER_CLASS(arch::IterativeSolver)
-        .method("run", &arch::IterativeSolver::run);
+        .inherits_from<arch::BaseSolver>("BaseSolver");
 
     ROSETTA_REGISTER_CLASS_AS(arch::SeidelSolver, "SeidelSolver")
         .inherits_from<arch::IterativeSolver>("IterativeSolver")
         .constructor<arch::Model &>()
-        .lambda_method<bool>(
-            "run", [](arch::SeidelSolver &self) { return self.run(); });
+        .lambda_method<bool>("run", [](arch::SeidelSolver &self) { return self.run(); });
 
     ROSETTA_REGISTER_CLASS_AS(arch::Postprocess, "Postprocess")
         .constructor<arch::Model &>()

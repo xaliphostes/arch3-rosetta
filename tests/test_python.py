@@ -1,10 +1,8 @@
 import arch3
 
 model = arch3.Model()
-
-material = arch3.Material(0.25, 1.0, 1.0)
-material.setThermalExpansion(0.1)
-model.setMaterial(material)
+model.setMaterial(0.25, 1, 1)
+model.setThermalExpansion(8e-6)
 
 surface = arch3.Surface(model, [0, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 2])
 surface.setBcType("dip", "free")
@@ -22,6 +20,8 @@ tf.setFunction(lambda x,y,z: z)
 model.setTemperatureField(tf)
 
 solver = arch3.SeidelSolver(model)
+solver.setEps(1e-3)
+solver.setMaxIter(10)
 solver.run()
 
 f = arch3.Postprocess(model)
