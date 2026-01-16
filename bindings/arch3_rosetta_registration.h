@@ -21,6 +21,7 @@
 #include <Arch/core/Surface.h>
 #include <Arch/postprocess/Postprocess.h>
 #include <Arch/solvers/Seidel.h>
+#include <Arch/temperature/TemperatureField.h>
 #include <functional>
 
 namespace arch3_rosetta {
@@ -65,12 +66,29 @@ inline void register_all() {
     //                ", z=" + std::to_string(v[2]);
     //     });
 
+    ROSETTA_REGISTER_CLASS(arch::TemperatureField)
+        .constructor<>()
+        .method("setConstant", &arch::TemperatureField::setConstant)
+        .method("setFunction", &arch::TemperatureField::setFunction)
+        .method("setReferenceTemperature",
+                &arch::TemperatureField::setReferenceTemperature)
+        .method("setActive", &arch::TemperatureField::setActive)
+        .method("getTemperature", &arch::TemperatureField::getTemperature)
+        .method("getTemperatureGradient",
+                &arch::TemperatureField::getTemperatureGradient)
+        .method("isActive", &arch::TemperatureField::isActive);
+
     ROSETTA_REGISTER_CLASS(arch::Model)
         .constructor<>()
         .method("setHalfSpace", &arch::Model::setHalfSpace)
         .method("setMaterial", &arch::Model::setMaterial)
         .method("addRemote", &arch::Model::addRemote)
-        .method("nbDof", &arch::Model::nbDof);
+        .method("nbDof", &arch::Model::nbDof)
+        .method("nbDof", &arch::Model::nbDof)
+        .method("setTemperatureField", &arch::Model::setTemperatureField)
+        .method("setThermalExpansion", &arch::Model::setThermalExpansion)
+        // Thermal expansion is done on material
+        ;
 
     ROSETTA_REGISTER_CLASS(arch::Surface)
         .constructor<arch::Model *, const std::vector<double> &,
@@ -86,6 +104,7 @@ inline void register_all() {
     // ROSETTA_REGISTER_CLASS(arch::Coulomb).constructor<>();
     // ROSETTA_REGISTER_CLASS(arch::CoulombOrtho).constructor<>();
 
+    // NOT USED YET: See Model::setMaterial(double, double, double)
     ROSETTA_REGISTER_CLASS(arch::Material)
         .constructor<double, double, double>()
         .method("poisson", &arch::Material::poisson)

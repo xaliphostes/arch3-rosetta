@@ -1,6 +1,11 @@
 import arch3
 
 model = arch3.Model()
+
+material = arch3.Material(0.25, 1.0, 1.0)
+material.setThermalExpansion(0.1)
+model.setMaterial(material)
+
 surface = arch3.Surface(model, [0, 0, 0, 1, 0, 0, 0, 1, 0], [0, 1, 2])
 surface.setBcType("dip", "free")
 surface.setBcType("strike", "free")
@@ -10,7 +15,11 @@ surface.setBcValue("normal", lambda x, y, z: -1200*9.81*abs(z))
 r = arch3.UserRemote(lambda x,y,z: [0,0,0,0,0,-1])
 model.addRemote(r)
 
-r.setFunction(lambda x,y,z: [1,0.1,0,2,0,-1], True)
+r.setFunction(lambda x,y,z: [1,0.1,0,2,0,-1], True) # test
+
+tf = arch3.TemperatureField()
+tf.setFunction(lambda x,y,z: z)
+model.setTemperatureField(tf)
 
 solver = arch3.SeidelSolver(model)
 solver.run()
